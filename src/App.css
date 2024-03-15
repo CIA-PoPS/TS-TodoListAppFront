@@ -3,5 +3,9 @@
 @import "tailwindcss/utilities";
 
 .App {
-  @apply h-full w-full bg-columbia-blue absolute;
+  @apply h-full w-full bg-columbia-blue absolute flex flex-col;
+}
+
+.App > .mycontainer {
+  @apply md:md:mx-10;
 }
