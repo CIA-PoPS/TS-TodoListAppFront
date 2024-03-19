@@ -10,6 +10,14 @@
   @apply flex;
 }
 
-#AddTodo {
-  @apply h-10 hover:stroke-emerald-500 hover:cursor-pointer;
+.AddTodo {
+  @apply h-10;
+}
+
+.AddTodo-Act {
+  @apply hover:stroke-emerald-500 hover:cursor-pointer;
+}
+
+.AddTodo-Dea {
+  @apply hover:cursor-default;
 }
