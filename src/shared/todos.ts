@@ -8,16 +8,16 @@ namespace TodoTypes {
   export interface ITodos {
     getType(): TodosType;
     createAt(): Date;
-    content(): String;
+    content(): string;
   }
 }
 
 abstract class SimpleTodo implements TodoTypes.ITodos {
-  private m_content: String;
+  private m_content: string;
   private m_createdAt: Date;
-  protected m_prefix: String;
+  protected m_prefix: string;
 
-  constructor(content: String, createAt: Date, prefix: String) {
+  constructor(content: string, createAt: Date, prefix: string) {
     this.m_content = content;
     this.m_createdAt = createAt;
     this.m_prefix = "";
@@ -29,11 +29,11 @@ abstract class SimpleTodo implements TodoTypes.ITodos {
 
   content = () => `${this.m_prefix} ${this.m_content}`;
 
-  protected updatePrefix = (npref: String) => (this.m_prefix = npref);
+  protected updatePrefix = (npref: string) => (this.m_prefix = npref);
 }
 
 class ListedTodo extends SimpleTodo {
-  constructor(content: String, createAt: Date) {
+  constructor(content: string, createAt: Date) {
     super(content, createAt, "-");
   }
 
