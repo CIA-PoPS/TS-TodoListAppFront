@@ -10,6 +10,13 @@ namespace TodoTypes {
     createAt(): Date;
     content(): string;
   }
+
+  export type TodoDTO = {
+    createAt: Date,
+    by: string,
+    at: Date,
+    content: string
+  }
 }
 
 abstract class SimpleTodo implements TodoTypes.ITodos {

@@ -1,9 +1,8 @@
-import { SimpleTodo } from "../shared/todos";
-import TodoElement from "./TodoElement";
+import { TodoElement, TDElementTypes } from "./TodoElement";
 import NoTodoCard from "../static/NoTodo";
 
 type TodosContainerProps = {
-    todos: SimpleTodo[]
+    todos: TDElementTypes.ParamsType[]
 }
 
 
@@ -13,7 +12,7 @@ const TodosContainer: React.FC<TodosContainerProps> = (props)  => {
             {
                 props.todos.length > 0 ?
                     props.todos.map((td) => {
-                        return <TodoElement todo={td}></TodoElement>
+                        return <TodoElement params={td}></TodoElement>
                     })
                     :
                     <NoTodoCard />
