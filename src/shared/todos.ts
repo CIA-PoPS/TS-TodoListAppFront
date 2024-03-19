@@ -1,4 +1,4 @@
-namespace TodoTypes {
+export namespace TodoTypes {
   export enum TodosType {
     Check,
     List,
@@ -16,6 +16,7 @@ namespace TodoTypes {
     by: string,
     at: Date,
     content: string
+    prefix: string
   }
 }
 
@@ -39,12 +40,10 @@ abstract class SimpleTodo implements TodoTypes.ITodos {
   protected updatePrefix = (npref: string) => (this.m_prefix = npref);
 }
 
-class ListedTodo extends SimpleTodo {
+export class ListedTodo extends SimpleTodo {
   constructor(content: string, createAt: Date) {
     super(content, createAt, "-");
   }
 
   getType: () => TodoTypes.TodosType = () => TodoTypes.TodosType.List;
 }
-
-export { TodoTypes, ListedTodo, SimpleTodo };
