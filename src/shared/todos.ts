@@ -1,16 +1,18 @@
-enum TodosType {
-  Check,
-  List,
-  Completed,
+namespace TodoTypes {
+  export enum TodosType {
+    Check,
+    List,
+    Completed,
+  }
+
+  export interface ITodos {
+    getType(): TodosType;
+    createAt(): Date;
+    content(): String;
+  }
 }
 
-interface ITodos {
-  getType(): TodosType;
-  createAt(): Date;
-  content(): String;
-}
-
-abstract class SimpleTodo implements ITodos {
+abstract class SimpleTodo implements TodoTypes.ITodos {
   private m_content: String;
   private m_createdAt: Date;
   protected m_prefix: String;
@@ -21,7 +23,7 @@ abstract class SimpleTodo implements ITodos {
     this.m_prefix = "";
   }
 
-  abstract getType(): TodosType;
+  abstract getType(): TodoTypes.TodosType;
 
   createAt = () => this.m_createdAt;
 
@@ -35,7 +37,7 @@ class ListedTodo extends SimpleTodo {
     super(content, createAt, "-");
   }
 
-  getType: () => TodosType = () => TodosType.List;
+  getType: () => TodoTypes.TodosType = () => TodoTypes.TodosType.List;
 }
 
-export { TodosType, ListedTodo };
+export { TodoTypes, ListedTodo, SimpleTodo };
