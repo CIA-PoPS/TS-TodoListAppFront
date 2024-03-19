@@ -12,12 +12,12 @@ export namespace TodoTypes {
   }
 
   export type TodoDTO = {
-    createAt: Date,
-    by: string,
-    at: Date,
-    content: string
-    prefix: string
-  }
+    createAt: Date;
+    by: string;
+    at: Date;
+    content: string;
+    prefix: string;
+  };
 }
 
 abstract class SimpleTodo implements TodoTypes.ITodos {
@@ -47,3 +47,12 @@ export class ListedTodo extends SimpleTodo {
 
   getType: () => TodoTypes.TodosType = () => TodoTypes.TodosType.List;
 }
+
+export const SimpleTodoFactory: (dto: TodoTypes.TodoDTO) => SimpleTodo = (
+  dto: TodoTypes.TodoDTO
+) => {
+  switch (dto.prefix) {
+    default:
+      return new ListedTodo(dto.content, dto.createAt)
+  }
+};
