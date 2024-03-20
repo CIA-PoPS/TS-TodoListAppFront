@@ -1,5 +1,5 @@
 import { TodoTypes } from "../shared/todos";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import "./TodoElement.css";
 import { onChangeTextAreaEvent } from "../shared/utility";
@@ -39,6 +39,7 @@ namespace Components {
 
     const [bgClass, setBgClass] = useState("bg-sky-500");
 
+    const txtAreaRef = useRef<HTMLTextAreaElement>(null);
     const [txtAreaProps, setTxtAreaProps] = useState<TextAreaProperties>({
       content: "",
       bgclass: "",
@@ -52,6 +53,18 @@ namespace Components {
       }, 100);
       return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setTxtAreaProps({
+          ...txtAreaProps,
+          bgclass: "",
+        });
+        txtAreaRef.current?.focus();
+      }, 200);
+
+      return () => clearTimeout(timer);
+    }, [txtAreaProps, txtAreaProps.bgclass]);
 
     const onContentInput = (event: onChangeTextAreaEvent) => {
       const element = event.target;
@@ -68,10 +81,26 @@ namespace Components {
       }
 
       setTxtAreaProps({
+        ...txtAreaProps,
         height: `${element.scrollHeight + paddingBottom + paddingTop}px`,
         content: element.value,
         rows: rows === 0 ? 1 : rows,
-        bgclass: txtAreaProps.bgclass,
+      });
+    };
+
+    const createNewTodo = () => {
+      if (!txtAreaProps.content.trim().length) {
+        setTxtAreaProps({
+          ...txtAreaProps,
+          bgclass: "bg-red-500",
+        });
+        return;
+      }
+      props.callback({
+        createAt: Date.now(),
+        by: "test",
+        content: txtAreaProps.content,
+        prefix: prefix,
       });
     };
 
@@ -86,14 +115,7 @@ namespace Components {
           </div>
           <div
             className="TodoButtonBar TodoCreateButton"
-            onClick={() => {
-              props.callback({
-                createAt: Date.now(),
-                by: "test",
-                content: txtAreaProps.content,
-                prefix: prefix,
-              });
-            }}
+            onClick={createNewTodo}
           >
             Create
           </div>
@@ -103,13 +125,16 @@ namespace Components {
             {TodoTypes.TodoPrefix.get(prefix).getPrefix()}
           </div>
           <textarea
-            className={`${bgClass} TodoTxtArea ${txtAreaProps.bgclass}`}
+            className={`${
+              txtAreaProps.bgclass.length ? txtAreaProps.bgclass : bgClass
+            } TodoTxtArea`}
             onChange={onContentInput}
             style={{ height: txtAreaProps.height }}
             rows={txtAreaProps.rows}
             autoFocus
             value={txtAreaProps.content}
             maxLength={512}
+            ref={txtAreaRef}
           />
         </div>
       </div>
