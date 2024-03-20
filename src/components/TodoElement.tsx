@@ -28,9 +28,11 @@ namespace Components {
   export const TodoCreation: React.FC<
     TDElementTypes.TodoElementCreationParam
   > = (props) => {
-    const [bgClass, setBgClass] = useState("bg-sky-500");
     const [content, setContent] = useState("");
     const [prefix, setPrefix] = useState("-");
+
+    const [bgClass, setBgClass] = useState("bg-sky-500");
+
     const [txtAreHeight, setHeight] = useState("auto");
     const [nbrRows, setRows] = useState(1);
 

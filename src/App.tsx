@@ -10,7 +10,7 @@ function App() {
   const [isAddingTD, setAddingTD] = useState(false);
 
   const saveTodo = (newTodo: TodoTypes.TodoDTO | null) => {
-    if (newTodo === null) setTodos([...todos.slice(1)]);
+    if (newTodo === null) setTodos(todos.slice(1));
     else setTodos([...todos.slice(1), { todo: SimpleTodo.fromDTO(newTodo) }]);
 
     setAddingTD(false);

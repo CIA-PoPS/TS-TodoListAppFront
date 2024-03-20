@@ -27,7 +27,7 @@ export namespace TodoTypes {
       }
     }
 
-    static List = new TodoPrefix(TodosType.List, getArrowLogo("h-12 w-12"));
+    static List = new TodoPrefix(TodosType.List, getArrowLogo("h-8 w-8"));
   }
 
   export interface ITodos {
