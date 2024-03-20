@@ -25,16 +25,26 @@ namespace Components {
     return <div className="TodoElement">{todo.content()}</div>;
   };
 
+  type TextAreaProperties = {
+    content: string;
+    bgclass: string;
+    rows: number;
+    height: string;
+  };
+
   export const TodoCreation: React.FC<
     TDElementTypes.TodoElementCreationParam
   > = (props) => {
-    const [content, setContent] = useState("");
     const [prefix, setPrefix] = useState("-");
 
     const [bgClass, setBgClass] = useState("bg-sky-500");
 
-    const [txtAreHeight, setHeight] = useState("auto");
-    const [nbrRows, setRows] = useState(1);
+    const [txtAreaProps, setTxtAreaProps] = useState<TextAreaProperties>({
+      content: "",
+      bgclass: "",
+      rows: 1,
+      height: "auto",
+    });
 
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -57,9 +67,12 @@ namespace Components {
         return;
       }
 
-      setHeight(`${element.scrollHeight + paddingBottom + paddingTop}px`);
-      setContent(element.value);
-      setRows(rows === 0 ? 1 : rows);
+      setTxtAreaProps({
+        height: `${element.scrollHeight + paddingBottom + paddingTop}px`,
+        content: element.value,
+        rows: rows === 0 ? 1 : rows,
+        bgclass: txtAreaProps.bgclass,
+      });
     };
 
     return (
@@ -77,7 +90,7 @@ namespace Components {
               props.callback({
                 createAt: Date.now(),
                 by: "test",
-                content: content,
+                content: txtAreaProps.content,
                 prefix: prefix,
               });
             }}
@@ -90,12 +103,12 @@ namespace Components {
             {TodoTypes.TodoPrefix.get(prefix).getPrefix()}
           </div>
           <textarea
-            className={`${bgClass} TodoTxtArea`}
+            className={`${bgClass} TodoTxtArea ${txtAreaProps.bgclass}`}
             onChange={onContentInput}
-            style={{ height: txtAreHeight }}
-            rows={nbrRows}
+            style={{ height: txtAreaProps.height }}
+            rows={txtAreaProps.rows}
             autoFocus
-            value={content}
+            value={txtAreaProps.content}
             maxLength={512}
           />
         </div>
