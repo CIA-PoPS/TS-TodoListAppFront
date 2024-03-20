@@ -7,12 +7,12 @@ export namespace TodoTypes {
 
   export interface ITodos {
     getType(): TodosType;
-    createAt(): Date;
+    createAt(): number;
     content(): string;
   }
 
   export type TodoDTO = {
-    createAt: Date;
+    createAt: number;
     by: string;
     content: string;
     prefix: string;
@@ -21,10 +21,10 @@ export namespace TodoTypes {
 
 abstract class SimpleTodo implements TodoTypes.ITodos {
   private m_content: string;
-  private m_createdAt: Date;
+  private m_createdAt: number;
   protected m_prefix: string;
 
-  constructor(content: string, createAt: Date, prefix: string) {
+  constructor(content: string, createAt: number, prefix: string) {
     this.m_content = content;
     this.m_createdAt = createAt;
     this.m_prefix = "";
@@ -40,7 +40,7 @@ abstract class SimpleTodo implements TodoTypes.ITodos {
 }
 
 export class ListedTodo extends SimpleTodo {
-  constructor(content: string, createAt: Date) {
+  constructor(content: string, createAt: number) {
     super(content, createAt, "-");
   }
 
