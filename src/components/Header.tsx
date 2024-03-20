@@ -1,7 +1,7 @@
 import PlusCircleIcon from "@heroicons/react/24/outline/PlusCircleIcon";
-import "./Header.css";
-import "@heroicons/react/24/outline/PlusCircleIcon";
 import { VoidTrigger } from "../shared/utility";
+
+import "./Header.css";
 
 type HeaderProps = {
   addTodoTrigger: VoidTrigger;

@@ -1,0 +1,31 @@
+.TodoElement {
+  @apply mx-16 max-w-[75%] px-4 py-3 rounded-2xl w-full flex-col flex items-center;
+}
+
+.TodoRow {
+  @apply flex w-full flex-1 items-center;
+}
+
+.TodoActionBar {
+  @apply max-w-[75%] justify-evenly mb-3;
+}
+
+.TodoTxtArea {
+  @apply resize-none text-xl w-full flex justify-center items-center overflow-y-hidden box-border min-h-fit pt-2;
+}
+
+.TodoTypeElement {
+  @apply flex-none w-12 h-12 text-center justify-center items-center flex mr-2;
+}
+
+.TodoButtonBar {
+  @apply py-2 px-8 mx-4 rounded-full text-center text-xl hover:cursor-pointer;
+}
+
+.TodoCreateButton {
+  @apply bg-emerald-400 hover:bg-emerald-500;
+}
+
+.TodoCancelButton {
+  @apply bg-slate-300 hover:bg-slate-400;
+}

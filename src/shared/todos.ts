@@ -1,3 +1,6 @@
+import { ReactElement } from "react";
+import { getArrowLogo } from "./logos";
+
 export namespace TodoTypes {
   export enum TodosType {
     Check,
@@ -6,10 +9,10 @@ export namespace TodoTypes {
   }
 
   export class TodoPrefix {
-    private m_prefix: string;
+    private m_prefix: ReactElement;
     private m_type: TodosType;
 
-    private constructor(type: TodosType, prefix: string) {
+    private constructor(type: TodosType, prefix: ReactElement) {
       this.m_prefix = prefix;
       this.m_type = type;
     }
@@ -24,7 +27,7 @@ export namespace TodoTypes {
       }
     }
 
-    static List = new TodoPrefix(TodosType.List, "-");
+    static List = new TodoPrefix(TodosType.List, getArrowLogo("h-12 w-12"));
   }
 
   export interface ITodos {
