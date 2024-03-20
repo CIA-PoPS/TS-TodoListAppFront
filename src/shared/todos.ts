@@ -5,6 +5,28 @@ export namespace TodoTypes {
     Completed,
   }
 
+  export class TodoPrefix {
+    private m_prefix: string;
+    private m_type: TodosType;
+
+    private constructor(type: TodosType, prefix: string) {
+      this.m_prefix = prefix;
+      this.m_type = type;
+    }
+
+    getType = () => this.m_type;
+    getPrefix = () => this.m_prefix;
+
+    static get(prefix: string): TodoPrefix {
+      switch (prefix) {
+        default:
+          return this.List;
+      }
+    }
+
+    static List = new TodoPrefix(TodosType.List, "-");
+  }
+
   export interface ITodos {
     getType(): TodosType;
     createAt(): number;
@@ -19,39 +41,23 @@ export namespace TodoTypes {
   };
 }
 
-abstract class SimpleTodo implements TodoTypes.ITodos {
+export class SimpleTodo implements TodoTypes.ITodos {
   private m_content: string;
   private m_createdAt: number;
-  protected m_prefix: string;
+  protected m_prefix: TodoTypes.TodoPrefix;
 
-  constructor(content: string, createAt: number, prefix: string) {
+  constructor(content: string, createAt: number, prefix: TodoTypes.TodoPrefix) {
     this.m_content = content;
     this.m_createdAt = createAt;
-    this.m_prefix = "";
+    this.m_prefix = prefix;
   }
 
-  abstract getType(): TodoTypes.TodosType;
+  getType = () => this.m_prefix.getType();
 
   createAt = () => this.m_createdAt;
 
   content = () => `${this.m_prefix} ${this.m_content}`;
 
-  protected updatePrefix = (npref: string) => (this.m_prefix = npref);
+  protected updatePrefix = (npref: string) =>
+    (this.m_prefix = TodoTypes.TodoPrefix.get(npref));
 }
-
-export class ListedTodo extends SimpleTodo {
-  constructor(content: string, createAt: number) {
-    super(content, createAt, "-");
-  }
-
-  getType: () => TodoTypes.TodosType = () => TodoTypes.TodosType.List;
-}
-
-export const SimpleTodoFactory: (dto: TodoTypes.TodoDTO) => SimpleTodo = (
-  dto: TodoTypes.TodoDTO
-) => {
-  switch (dto.prefix) {
-    default:
-      return new ListedTodo(dto.content, dto.createAt);
-  }
-};
