@@ -14,7 +14,6 @@ export namespace TodoTypes {
   export type TodoDTO = {
     createAt: Date;
     by: string;
-    at: Date;
     content: string;
     prefix: string;
   };
@@ -53,6 +52,6 @@ export const SimpleTodoFactory: (dto: TodoTypes.TodoDTO) => SimpleTodo = (
 ) => {
   switch (dto.prefix) {
     default:
-      return new ListedTodo(dto.content, dto.createAt)
+      return new ListedTodo(dto.content, dto.createAt);
   }
 };
