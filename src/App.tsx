@@ -3,14 +3,16 @@ import "./App.css";
 import Header from "./components/Header";
 import TodosContainer from "./components/TodosContainer";
 import { TDElementTypes } from "./components/TodoElement";
-import { SimpleTodoFactory, TodoTypes } from "./shared/todos";
+import { SimpleTodo, TodoTypes } from "./shared/todos";
 
 function App() {
   const [todos, setTodos] = useState<TDElementTypes.ParamsType[]>([]);
   const [isAddingTD, setAddingTD] = useState(false);
 
-  const saveTodo = (newTodo: TodoTypes.TodoDTO) => {
-    setTodos([...todos.slice(1), { todo: SimpleTodoFactory(newTodo) }]);
+  const saveTodo = (newTodo: TodoTypes.TodoDTO | null) => {
+    if (newTodo === null) setTodos([...todos.slice(1)]);
+    else setTodos([...todos.slice(1), { todo: SimpleTodo.fromDTO(newTodo) }]);
+
     setAddingTD(false);
   };
 

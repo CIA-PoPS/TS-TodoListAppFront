@@ -52,6 +52,14 @@ export class SimpleTodo implements TodoTypes.ITodos {
     this.m_prefix = prefix;
   }
 
+  static fromDTO(dto: TodoTypes.TodoDTO): SimpleTodo {
+    return new SimpleTodo(
+      dto.content,
+      dto.createAt,
+      TodoTypes.TodoPrefix.get(dto.prefix)
+    );
+  }
+
   getType = () => this.m_prefix.getType();
 
   createAt = () => this.m_createdAt;
