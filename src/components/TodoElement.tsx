@@ -22,7 +22,22 @@ export namespace TDElementTypes {
 
 namespace Components {
   export const TodoDisplay = (todo: TodoTypes.ITodos) => {
-    return <div className="TodoElement">{todo.content()}</div>;
+    return (
+      <div className="TodoElement">
+        <div className="TodoDisplay">
+          <div className="TodoTypeElement">
+            {TodoTypes.TodoPrefix.extractFrom(todo.content()).getPrefix()}
+          </div>
+          <div className="TodoContent">
+            {TodoTypes.TodoPrefix.removeFrom(todo.content())}
+          </div>
+        </div>
+        <div className="TodoRow TodoDisplayActionBar">
+          <div className="TodoActionButton TodoCompletedAction">Done</div>
+          <div className="TodoActionButton TodoDeleteAction">Delete</div>
+        </div>
+      </div>
+    );
   };
 
   type TextAreaProperties = {
@@ -120,7 +135,7 @@ namespace Components {
             Create
           </div>
         </div>
-        <div className="TodoRow">
+        <div className="TodoRow w-full">
           <div className="TodoTypeElement">
             {TodoTypes.TodoPrefix.get(prefix).getPrefix()}
           </div>
