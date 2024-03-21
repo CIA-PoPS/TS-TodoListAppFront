@@ -2,22 +2,20 @@ import React, { useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodosContainer from "./components/TodosContainer";
-import { TDElementTypes } from "./components/TodoElement";
-import { SimpleTodo, TodoTypes } from "./shared/todos";
+import { TodoTypes } from "./shared/todos";
 
 function App() {
-  const [todos, setTodos] = useState<TDElementTypes.ParamsType[]>([]);
+  const [todos, setTodos] = useState<TodoTypes.TodoDTO[]>([]);
   const [isAddingTD, setAddingTD] = useState(false);
 
   const saveTodo = (newTodo: TodoTypes.TodoDTO | null) => {
-    if (newTodo === null) setTodos(todos.slice(1));
-    else setTodos([...todos.slice(1), { todo: SimpleTodo.fromDTO(newTodo) }]);
+    if (newTodo === null) setTodos([...todos]);
+    else setTodos([...todos, newTodo]);
 
     setAddingTD(false);
   };
 
   const createTodo = () => {
-    setTodos([{ callback: saveTodo }, ...todos]);
     setAddingTD(true);
   };
 
@@ -25,7 +23,11 @@ function App() {
     <div className="App">
       <div className="mycontainer">
         <Header addTodoTrigger={createTodo} enabled={!isAddingTD} />
-        <TodosContainer todos={todos}></TodosContainer>
+        <TodosContainer
+          todos={todos}
+          create={isAddingTD}
+          creationCallback={saveTodo}
+        ></TodosContainer>
       </div>
     </div>
   );

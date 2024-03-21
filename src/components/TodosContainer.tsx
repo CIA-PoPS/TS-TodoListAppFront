@@ -1,22 +1,39 @@
-import { TodoElement, TDElementTypes } from "./TodoElement";
+import { TodoElement } from "./TodoElement";
 import NoTodoCard from "../static/NoTodo";
 
-import "./TodosContainer.css"
+import "./TodosContainer.css";
+import { SimpleTodo, TodoTypes } from "../shared/todos";
 
 type TodosContainerProps = {
-  todos: TDElementTypes.ParamsType[];
+  todos: TodoTypes.TodoDTO[];
+  create: boolean;
+  creationCallback: (data: TodoTypes.TodoDTO | null) => void;
 };
 
 const TodosContainer: React.FC<TodosContainerProps> = (props) => {
   return (
     <div className="TodoContainer">
+      {props.create ? (
+        <TodoElement
+          params={{ callback: props.creationCallback }}
+          key={"creation_td"}
+        />
+      ) : (
+        <></>
+      )}
       {props.todos.length > 0 ? (
         props.todos.map((td, index) => {
-          return <TodoElement params={td} key={index}></TodoElement>;
+          return (
+            <TodoElement
+              params={{ todo: SimpleTodo.fromDTO(td) }}
+              key={index}
+            ></TodoElement>
+          );
         })
       ) : (
-        <NoTodoCard />
+        <></>
       )}
+      {props.todos.length === 0 && !props.create ? <NoTodoCard /> : <></>}
     </div>
   );
 };
