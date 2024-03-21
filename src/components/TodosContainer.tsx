@@ -13,15 +13,13 @@ type TodosContainerProps = {
 const TodosContainer: React.FC<TodosContainerProps> = (props) => {
   return (
     <div className="TodoContainer">
-      {props.create ? (
+      {props.create && (
         <TodoElement
           params={{ callback: props.creationCallback }}
           key={"creation_td"}
         />
-      ) : (
-        <></>
       )}
-      {props.todos.length > 0 ? (
+      {props.todos.length > 0 &&
         props.todos.map((td, index) => {
           return (
             <TodoElement
@@ -29,11 +27,8 @@ const TodosContainer: React.FC<TodosContainerProps> = (props) => {
               key={index}
             ></TodoElement>
           );
-        })
-      ) : (
-        <></>
-      )}
-      {props.todos.length === 0 && !props.create ? <NoTodoCard /> : <></>}
+        })}
+      {props.todos.length === 0 && !props.create && <NoTodoCard />}
     </div>
   );
 };
