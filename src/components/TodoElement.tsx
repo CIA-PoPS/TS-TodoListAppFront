@@ -22,9 +22,14 @@ export namespace TDElementTypes {
 
 namespace Components {
   export const TodoDisplay = (todo: TodoTypes.ITodos) => {
+    const [showActionBar, doShowActionBar] = useState(false);
+
     return (
       <div className="TodoElement">
-        <div className="TodoDisplay">
+        <div
+          className="TodoDisplay"
+          onClick={() => doShowActionBar(!showActionBar)}
+        >
           <div className="TodoTypeElement">
             {TodoTypes.TodoPrefix.extractFrom(todo.content()).getPrefix()}
           </div>
@@ -32,10 +37,14 @@ namespace Components {
             {TodoTypes.TodoPrefix.removeFrom(todo.content())}
           </div>
         </div>
-        <div className="TodoRow TodoDisplayActionBar">
-          <div className="TodoActionButton TodoCompletedAction">Done</div>
-          <div className="TodoActionButton TodoDeleteAction">Delete</div>
-        </div>
+        {showActionBar ? (
+          <div className="TodoRow TodoDisplayActionBar">
+            <div className="TodoActionButton TodoCompletedAction">Done</div>
+            <div className="TodoActionButton TodoDeleteAction">Delete</div>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     );
   };
