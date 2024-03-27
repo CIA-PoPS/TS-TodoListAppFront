@@ -1,34 +1,45 @@
-import { TodoElement } from "./TodoElement";
+import { TDElementTypes, TodoElement } from "./TodoElement";
 import NoTodoCard from "../static/NoTodo";
 
 import "./TodosContainer.css";
-import { SimpleTodo, TodoTypes } from "../shared/todos";
+import { useMemo } from "react";
 
 type TodosContainerProps = {
-  todos: TodoTypes.TodoDTO[];
-  create: boolean;
-  creationCallback: (data: TodoTypes.TodoDTO | null) => void;
+  todos: TDElementTypes.Type[];
+  createTodoCallback: TDElementTypes.creationCallback;
 };
 
 const TodosContainer: React.FC<TodosContainerProps> = (props) => {
+  const newTodo = useMemo(
+    () => props.todos.filter((value) => value === null),
+    [props.todos]
+  );
+
+  const visibleTodos = useMemo(
+    () => props.todos.filter((value) => value !== null),
+    [props.todos]
+  );
+
   return (
     <div className="TodoContainer">
-      {props.create && (
+      {newTodo.length > 0 && (
         <TodoElement
-          params={{ callback: props.creationCallback }}
-          key={"creation_td"}
-        />
+          todo={null}
+          creation={props.createTodoCallback}
+          key={"newTodo"}
+        ></TodoElement>
       )}
-      {props.todos.length > 0 &&
-        props.todos.map((td, index) => {
+      {visibleTodos.length > 0 &&
+        visibleTodos.map((td, index) => {
           return (
             <TodoElement
-              params={{ todo: SimpleTodo.fromDTO(td) }}
+              todo={td}
+              creation={props.createTodoCallback}
               key={index}
             ></TodoElement>
           );
         })}
-      {props.todos.length === 0 && !props.create && <NoTodoCard />}
+      {props.todos.length === 0 && <NoTodoCard />}
     </div>
   );
 };

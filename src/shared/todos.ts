@@ -62,6 +62,9 @@ export namespace TodoTypes {
     getType(): TodosType;
     createAt(): number;
     content(): string;
+
+    isCompleted(): boolean;
+    setCompleted(value: boolean): void;
   }
 
   export type TodoDTO = {
@@ -69,6 +72,7 @@ export namespace TodoTypes {
     by: string;
     content: string;
     prefix: string;
+    completed: boolean;
   };
 }
 
@@ -76,22 +80,33 @@ export class SimpleTodo implements TodoTypes.ITodos {
   private m_content: string;
   private m_createdAt: number;
   protected m_prefix: TodoTypes.TodoPrefix;
+  private m_completed: boolean;
 
-  constructor(content: string, createAt: number, prefix: TodoTypes.TodoPrefix) {
+  constructor(
+    content: string,
+    createAt: number,
+    prefix: TodoTypes.TodoPrefix,
+    completed: boolean
+  ) {
     this.m_content = content;
     this.m_createdAt = createAt;
     this.m_prefix = prefix;
+    this.m_completed = completed;
   }
 
   static fromDTO(dto: TodoTypes.TodoDTO): SimpleTodo {
     return new SimpleTodo(
       dto.content,
       dto.createAt,
-      TodoTypes.TodoPrefix.get(dto.prefix)
-    );
-  }
-
-  getType = () => this.m_prefix.getType();
+      TodoTypes.TodoPrefix.get(dto.prefix),
+      dto.completed
+      );
+    }
+    
+    isCompleted = () => this.m_completed;
+    setCompleted = (val: boolean) => (this.m_completed = val);
+  
+    getType = () => this.m_prefix.getType();
 
   createAt = () => this.m_createdAt;
 

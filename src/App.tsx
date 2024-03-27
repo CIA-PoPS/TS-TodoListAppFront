@@ -1,32 +1,42 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import TodosContainer from "./components/TodosContainer";
-import { TodoTypes } from "./shared/todos";
+import { SimpleTodo, TodoTypes } from "./shared/todos";
+import { TDElementTypes } from "./components/TodoElement";
 
 function App() {
-  const [todos, setTodos] = useState<TodoTypes.TodoDTO[]>([]);
-  const [isAddingTD, setAddingTD] = useState(false);
+  const [todos, setTodos] = useState<TDElementTypes.Type[]>([]);
 
-  const saveTodo = (newTodo: TodoTypes.TodoDTO | null) => {
-    if (newTodo === null) setTodos([...todos]);
-    else setTodos([...todos, newTodo]);
+  const isAdding = () => todos.length > 0 && todos[0] === null;
 
-    setAddingTD(false);
-  };
+  const saveTodo = useCallback(
+    (newTodo: TodoTypes.TodoDTO | null) =>
+      setTodos((old) => {
+        if (old.length === 0 || old[0] !== null) return old;
+        if (newTodo !== null) old.push(SimpleTodo.fromDTO(newTodo));
+        return old.slice(1);
+      }),
+    []
+  );
 
-  const createTodo = () => {
-    setAddingTD(true);
-  };
+  const createTodo = useCallback(() => setTodos((old) => [null, ...old]), []);
+
+  // const getApi = useMemo<ITodosAPI>(
+  //   () => ({
+  //     saveTodo: saveTodo,
+  //     createTodo: createTodo,
+  //   }),
+  //   [saveTodo, createTodo]
+  // );
 
   return (
     <div className="App">
       <div className="mycontainer">
-        <Header addTodoTrigger={createTodo} enabled={!isAddingTD} />
+        <Header addTodoTrigger={createTodo} enabled={!isAdding()} />
         <TodosContainer
           todos={todos}
-          create={isAddingTD}
-          creationCallback={saveTodo}
+          createTodoCallback={saveTodo}
         ></TodosContainer>
       </div>
     </div>

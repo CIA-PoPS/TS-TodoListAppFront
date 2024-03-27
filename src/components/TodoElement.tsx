@@ -5,18 +5,12 @@ import "./TodoElement.css";
 import { onChangeTextAreaEvent } from "../shared/utility";
 
 export namespace TDElementTypes {
-  export type TodoElementDisplayParam = {
-    todo: TodoTypes.ITodos;
-  };
-
-  export type TodoElementCreationParam = {
-    callback: (data: TodoTypes.TodoDTO | null) => void;
-  };
-
-  export type ParamsType = TodoElementDisplayParam | TodoElementCreationParam;
+  export type creationCallback = (data: TodoTypes.TodoDTO | null) => void;
+  export type Type = TodoTypes.ITodos | null;
 
   export type TodoElementProps = {
-    params: ParamsType;
+    todo: Type;
+    creation: creationCallback;
   };
 }
 
@@ -56,9 +50,7 @@ namespace Components {
     height: string;
   };
 
-  export const TodoCreation: React.FC<
-    TDElementTypes.TodoElementCreationParam
-  > = (props) => {
+  export const TodoCreation = (callback: TDElementTypes.creationCallback) => {
     const [prefix, setPrefix] = useState("-");
 
     const [bgClass, setBgClass] = useState("bg-sky-500");
@@ -120,11 +112,13 @@ namespace Components {
         });
         return;
       }
-      props.callback({
+
+      callback({
         createAt: Date.now(),
         by: "test",
         content: txtAreaProps.content,
         prefix: prefix,
+        completed: false,
       });
     };
 
@@ -133,7 +127,7 @@ namespace Components {
         <div className="TodoRow TodoActionBar">
           <div
             className="TodoButtonBar TodoCancelButton"
-            onClick={() => props.callback(null)}
+            onClick={() => callback(null)}
           >
             Cancel
           </div>
@@ -166,15 +160,11 @@ namespace Components {
   };
 }
 
-const _doDisplay = (
-  params: TDElementTypes.ParamsType
-): params is TDElementTypes.TodoElementDisplayParam =>
-  (params as TDElementTypes.TodoElementDisplayParam).todo !== undefined;
-
 export const TodoElement: React.FC<TDElementTypes.TodoElementProps> = ({
-  params,
+  todo,
+  creation,
 }) => {
-  return _doDisplay(params)
-    ? Components.TodoDisplay(params.todo)
-    : Components.TodoCreation(params);
+  return todo !== null
+    ? Components.TodoDisplay(todo)
+    : Components.TodoCreation(creation);
 };
