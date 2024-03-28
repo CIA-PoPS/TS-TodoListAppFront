@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { creationCallback } from "./common";
 import { onChangeTextAreaEvent } from "../../shared/utility";
 import { TodoTypes } from "../../shared/todos";
 import "./TodoElement.css";
+import { TodosApiFunctions } from "../../interfaces/todo.types";
 
 type TextAreaProperties = {
   content: string;
@@ -12,7 +12,7 @@ type TextAreaProperties = {
 };
 
 type TodoCreationProps = {
-  on_create: creationCallback;
+  on_create: TodosApiFunctions.saveTodo;
 };
 
 export const TodoCreation: React.FC<TodoCreationProps> = ({ on_create }) => {

@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import TodosContainer from "./components/TodosContainer";
 import { SimpleTodo, TodoTypes } from "./shared/todos";
 import { Type as TDType } from "./components/todos/common";
-import { ITodosAPI } from "./shared/utility";
+import { ITodosAPI } from "./interfaces/todo.types";
 
 function App() {
   const [todos, setTodos] = useState<TDType[]>([]);
@@ -27,9 +27,10 @@ function App() {
     (todoData: TodoTypes.TodoDTO | null, index: number) =>
       setTodos((old) => {
         if (index < 0 || index >= old.length) return old;
-        if (todoData === null) old.splice(index);
+        if (todoData === null) old.splice(index, 1);
         else old[index] = SimpleTodo.fromDTO(todoData);
-        return old;
+        console.log(old);
+        return [...old];
       }),
     []
   );

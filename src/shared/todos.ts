@@ -63,6 +63,7 @@ export namespace TodoTypes {
     createAt(): number;
     content(): string;
     completed(): boolean;
+    getDTO(): TodoDTO;
   }
 
   export type TodoDTO = {
@@ -108,6 +109,14 @@ export class SimpleTodo implements TodoTypes.ITodos {
   createAt = () => this.m_createdAt;
 
   content = () => `${this.m_prefix.getString()} ${this.m_content}`;
+
+  getDTO = (): TodoTypes.TodoDTO => ({
+    createAt: this.m_createdAt,
+    by: "",
+    content: this.m_content,
+    prefix: this.m_prefix.getString(),
+    completed: this.m_completed,
+  });
 
   protected updatePrefix = (npref: string) =>
     (this.m_prefix = TodoTypes.TodoPrefix.get(npref));

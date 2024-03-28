@@ -1,6 +1,6 @@
 import NoTodoCard from "../static/NoTodo";
 import { useMemo } from "react";
-import { ITodosAPI } from "../shared/utility";
+import { ITodosAPI } from "../interfaces/todo.types";
 import { TodoCreation } from "./todos/TodoCreation";
 import { TodoDisplay } from "./todos/TodoDisplay";
 import { Type as TDType } from "./todos/common";
@@ -30,7 +30,7 @@ const TodosContainer: React.FC<TodosContainerProps> = (props) => {
         props.todos.map((td, index) => {
           if (td === null) return <></>;
           return (
-            <TodoDisplay todo={td} key={index} todo_index={index}></TodoDisplay>
+            <TodoDisplay todo={td} key={index} todo_index={index} updateTodo={props.api.updateTodo}></TodoDisplay>
           );
         })}
       {props.todos.length === 0 && <NoTodoCard />}
