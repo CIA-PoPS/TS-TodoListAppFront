@@ -10,6 +10,10 @@
   @apply bg-slate-100 hover:bg-slate-200 hover:cursor-pointer w-full rounded-2xl flex flex-1 items-center;
 }
 
+.TodoCompleted {
+  @apply bg-slate-500 hover:bg-slate-400 text-slate-100;
+}
+
 .TodoDisplayActionBar {
   @apply max-w-[50%] justify-center w-min bg-cyan-100 rounded-full mt-1;
 }

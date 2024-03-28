@@ -21,7 +21,7 @@ export const TodoDisplay: React.FC<TodoDisplayProps> = ({
   return (
     <div className="TodoElement">
       <div
-        className="TodoDisplay"
+        className={`TodoDisplay ${dto.completed ? "TodoCompleted" : ""}`}
         onClick={() => doShowActionBar(!showActionBar)}
       >
         <div className="TodoTypeElement">
@@ -39,7 +39,7 @@ export const TodoDisplay: React.FC<TodoDisplayProps> = ({
               updateTodo({ ...dto, completed: !dto.completed }, todo_index)
             }
           >
-            Done
+            {dto.completed ? "Undone" : "Done"}
           </div>
           <div
             className="TodoActionButton TodoDeleteAction"
