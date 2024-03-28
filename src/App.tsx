@@ -3,11 +3,11 @@ import "./App.css";
 import Header from "./components/Header";
 import TodosContainer from "./components/TodosContainer";
 import { SimpleTodo, TodoTypes } from "./shared/todos";
-import { TDElementTypes } from "./components/TodoElement";
+import { Type as TDType } from "./components/todos/common";
 import { ITodosAPI } from "./shared/utility";
 
 function App() {
-  const [todos, setTodos] = useState<TDElementTypes.Type[]>([]);
+  const [todos, setTodos] = useState<TDType[]>([]);
 
   const isAdding = () => todos.length > 0 && todos[0] === null;
 

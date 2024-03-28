@@ -1,12 +1,14 @@
-import { TDElementTypes, TodoElement } from "./TodoElement";
 import NoTodoCard from "../static/NoTodo";
-
-import "./TodosContainer.css";
 import { useMemo } from "react";
 import { ITodosAPI } from "../shared/utility";
+import { TodoCreation } from "./todos/TodoCreation";
+import { TodoDisplay } from "./todos/TodoDisplay";
+import { Type as TDType } from "./todos/common";
+
+import "./TodosContainer.css";
 
 type TodosContainerProps = {
-  todos: TDElementTypes.Type[];
+  todos: TDType[];
   api: ITodosAPI;
 };
 
@@ -19,23 +21,16 @@ const TodosContainer: React.FC<TodosContainerProps> = (props) => {
   return (
     <div className="TodoContainer">
       {newTodo.length > 0 && (
-        <TodoElement
-          todo={null}
-          creation={props.api.saveTodo}
+        <TodoCreation
+          on_create={props.api.saveTodo}
           key={"newTodo"}
-          todoIndex={null}
-        ></TodoElement>
+        ></TodoCreation>
       )}
       {props.todos.length > 0 &&
         props.todos.map((td, index) => {
           if (td === null) return <></>;
           return (
-            <TodoElement
-              todo={td}
-              creation={props.api.saveTodo}
-              key={index}
-              todoIndex={index}
-            ></TodoElement>
+            <TodoDisplay todo={td} key={index} todo_index={index}></TodoDisplay>
           );
         })}
       {props.todos.length === 0 && <NoTodoCard />}
