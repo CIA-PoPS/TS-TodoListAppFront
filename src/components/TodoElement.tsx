@@ -11,11 +11,12 @@ export namespace TDElementTypes {
   export type TodoElementProps = {
     todo: Type;
     creation: creationCallback;
+    todoIndex: number | null;
   };
 }
 
 namespace Components {
-  export const TodoDisplay = (todo: TodoTypes.ITodos) => {
+  export const TodoDisplay = (todo: TodoTypes.ITodos, todo_index: number) => {
     const [showActionBar, doShowActionBar] = useState(false);
 
     return (
@@ -163,8 +164,9 @@ namespace Components {
 export const TodoElement: React.FC<TDElementTypes.TodoElementProps> = ({
   todo,
   creation,
+  todoIndex,
 }) => {
   return todo !== null
-    ? Components.TodoDisplay(todo)
+    ? Components.TodoDisplay(todo, todoIndex!)
     : Components.TodoCreation(creation);
 };

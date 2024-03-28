@@ -3,10 +3,11 @@ import NoTodoCard from "../static/NoTodo";
 
 import "./TodosContainer.css";
 import { useMemo } from "react";
+import { ITodosAPI } from "../shared/utility";
 
 type TodosContainerProps = {
   todos: TDElementTypes.Type[];
-  createTodoCallback: TDElementTypes.creationCallback;
+  api: ITodosAPI;
 };
 
 const TodosContainer: React.FC<TodosContainerProps> = (props) => {
@@ -15,27 +16,25 @@ const TodosContainer: React.FC<TodosContainerProps> = (props) => {
     [props.todos]
   );
 
-  const visibleTodos = useMemo(
-    () => props.todos.filter((value) => value !== null),
-    [props.todos]
-  );
-
   return (
     <div className="TodoContainer">
       {newTodo.length > 0 && (
         <TodoElement
           todo={null}
-          creation={props.createTodoCallback}
+          creation={props.api.saveTodo}
           key={"newTodo"}
+          todoIndex={null}
         ></TodoElement>
       )}
-      {visibleTodos.length > 0 &&
-        visibleTodos.map((td, index) => {
+      {props.todos.length > 0 &&
+        props.todos.map((td, index) => {
+          if (td === null) return <></>;
           return (
             <TodoElement
               todo={td}
-              creation={props.createTodoCallback}
+              creation={props.api.saveTodo}
               key={index}
+              todoIndex={index}
             ></TodoElement>
           );
         })}
